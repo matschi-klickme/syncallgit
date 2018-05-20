@@ -19,18 +19,4 @@ do
    ( cd $FOLDER; git pull; git commit -a; git push )
   fi
  done
-# find $ELEMENT -maxdepth 1 -type d | xargs -I   if [ -d $ELEMENT/.git ]; then do echo "found git repo"; git pull; done;  fi
-# if [ -d $ELEMENT/.git ]; then
-#   echo "git repo:" 
-   #(cd $ELEMENT;git pull;git push )
-# fi
 done
-
-#falls unstaged changes "git commit -a"
-#git pull
-#for folder in $(ls);
-
-# evtl mergen
-#git push
-
-# alles gut

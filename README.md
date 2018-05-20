@@ -1,4 +1,6 @@
 # syncallgit
-script to sync git repos
+script to sync (pull, commit, push )  git repos
 
-if ~/.config/git_dirs  file exists those will be used. Otherwise $PWD folder. 
+if ~/.config/git_dirs  file exists those will be used. 
+
+Otherwise $PWD folder. 
