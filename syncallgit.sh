@@ -16,7 +16,7 @@ do
  for FOLDER in $(find $ELEMENT -maxdepth 1 -type d ); do
   if [ -d $FOLDER/.git ]; then
    echo "Git folder found in:" $FOLDER
-   ( cd $FOLDER; git pull; if [ !  $(git diff-index --quiet HEAD --) ]; then git commit -a; git push; fi  )
+   ( cd $FOLDER; git pull; if [ !  $(git diff-index --quiet HEAD --) ]; then (git commit -a; git push); fi  )
   fi
  done
 done
