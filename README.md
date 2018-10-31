@@ -5,7 +5,8 @@ Simple script to sync (pull, commit, push )  git repos.
 If "~/.config/git_dirs" file exists,it will be used. Otherwise $PWD folder. 
 
 ## git_dirs file: 
-One folder containing git repos per line pls. 
+One file containing path to one folder containing git repos per line pls.
+Suggestion: put in the loction of the "syncallgit" -file first
 
 ## Avoid annoying stuff: 
 
