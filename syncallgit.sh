@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #check for configfile
 if [ -f ~/.config/git_dirs ]
 then
