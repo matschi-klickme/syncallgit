@@ -9,6 +9,7 @@ fi
 
 #check wether folder is a git repo
 
+
 for ELEMENT in $LOOK_DIRS
 do
  echo "Checking folder:" $ELEMENT
