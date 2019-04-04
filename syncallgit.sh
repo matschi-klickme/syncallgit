@@ -7,7 +7,7 @@ else
 LOOK_DIRS=${1:-$PWD}
 fi
 
-#check ob Ordner GIT Repo
+#check wether folder is a git repo
 
 for ELEMENT in $LOOK_DIRS
 do
