@@ -36,5 +36,5 @@ Switch to ssh-key based auth to avoid annoying "please enter your account/pw" me
      * clone additional repos
      * symlink relevant files to desired locations
  * Create git_dirs file for root: `echo "/git_root" >> /root/.config/git_dirs`
- * use `ssh -A root@localhost /git_root/syncallgit.sh` to auto pull/push of all git folders in /git/root as from a regular user shell 
+ * use `ssh -A root@localhost /git_root/syncallgit.sh` to auto sync repos in /git_root from a regular user shell 
     * you might need to set your root's git editor: `git config --global core.editor "EDITOR"`   (replace with desired editor, eg "vim", "nano", etc )
