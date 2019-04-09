@@ -1,24 +1,35 @@
 # syncallgit
-Never forget to pull/push/commit again. The perfect start into your day!
-Simple script to sync (pull, commit, push )  git repos.
+Simple script to sync (pull, commit, push) git repos listed in ~/.config/git_dirs - file.
 
-If "~/.config/git_dirs" file exists,it will be used. Otherwise $PWD folder. 
+The perfect start into your day!
+
+The script looks for:
+* remote changes in currently checkend out banches 
+* local, uncommited or unpushed changes in currently checked out branches
+* unpushed commits to the local master branch of repos
+
+
+# Config
+If "~/.config/git_dirs" file exists, it will be used. Otherwise $PWD 
 
 ## git_dirs file: 
-One file containing path to one folder containing git repos per line pls.
-Suggestion: put in the loction of the "syncallgit" -file first
+one full path per line,
+* eighter to git-repo
+* or folders containing git-repos
+
+( Suggestion: put in the loction of the "syncallgit" -git dir first )
 
 # Avoid annoying stuff:
 
 ## untracked files: 
 The ".gitignore" file is your friend!
 
-## github: 
-Switch to ssh-based pull/push and ssh-key auth to avoid annoying "please enter your account/pw" 
+## Authentication: 
+Switch to ssh-key based auth to avoid annoying "please enter your account/pw" messages 
 
-## running sync as root via ssh -A root@localhost 
-for instance: 
+## running as root 
 
+### option #1: via ssh -A root@localhost 
  * create folder /git_root. In that folder:
      * git clone https://github.com/matschi-klickme/syncallgit.git
         * echo "/git_root" >> /root/.config/git_dirs
