@@ -21,6 +21,6 @@ Suggestion: put in the loction of the "syncallgit" -file first
         * {{{ echo "/git_root" >> /root/.config/git_dirs }}}
         * clone additional repos
         * symlink relevant files to desired locations
- * auto pull/push of all git folders in /git/root as from a regular user shell via {{{ ssh -A root@localhost /git_root/syncallgit.sh  }}}
+ * auto pull/push of all git folders in /git/root as from a regular user shell via {{{ ssh -A -t root@localhost /git_root/syncallgit.sh  }}}
     * ssh stuff needs to be setup
     * you probably need to set your root's git editor: git config --global core.editor "EDITOR"   (replace with desired editor, eg "vim", "nano", etc )
