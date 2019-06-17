@@ -27,11 +27,11 @@ The ".gitignore" file is your friend!
 ## Authentication: 
 Switch to ssh-key based auth to avoid annoying "please enter your account/pw" messages 
 
-## updating root-owned directories from user shell
+## updating root-owned directories from user shell per ssh 
 
- * create folder /git_root. In that folder:
-     * git clone https://github.com/matschi-klickme/syncallgit.git
-        * {{{ echo "/git_root" >> /root/.config/git_dirs }}}
+ * create folder /root/git `mkdir /root/git`. In that folder:
+     * `git clone https://github.com/matschi-klickme/syncallgit.git`
+        * `echo "/git_root" >> /root/.config/git_dirs`
         * clone additional repos
         * symlink relevant files to desired locations
  * auto pull/push of all git folders in /git/root as from a regular user shell via {{{ ssh -A -t root@localhost /git_root/syncallgit.sh  }}}
