@@ -29,7 +29,6 @@ Switch to ssh-key based auth to avoid annoying "please enter your account/pw" me
 
 ## updating root-owned directories from user shell
 
-<<<<<<< HEAD
  * create folder /git_root. In that folder:
      * git clone https://github.com/matschi-klickme/syncallgit.git
         * {{{ echo "/git_root" >> /root/.config/git_dirs }}}
@@ -38,7 +37,7 @@ Switch to ssh-key based auth to avoid annoying "please enter your account/pw" me
  * auto pull/push of all git folders in /git/root as from a regular user shell via {{{ ssh -A -t root@localhost /git_root/syncallgit.sh  }}}
     * ssh stuff needs to be setup
     * you probably need to set your root's git editor: git config --global core.editor "EDITOR"   (replace with desired editor, eg "vim", "nano", etc )
-=======
+
 ### option #1: via ssh -A root@localhost 
  * ssh-based authentication needs to be set up for this
  * create folder /git_root. `mkdir /git_root` In that folder:
@@ -48,4 +47,4 @@ Switch to ssh-key based auth to avoid annoying "please enter your account/pw" me
  * Create git_dirs file for root: `echo "/git_root" >> /root/.config/git_dirs`
  * use `ssh -A root@localhost /git_root/syncallgit.sh` to auto sync repos in /git_root from a regular user shell 
     * you might need to set your root's git editor: `git config --global core.editor "EDITOR"`   (replace with desired editor, eg "vim", "nano", etc )
->>>>>>> 5e1537bfbc2d7a357d359e0ff623597c948a8206
+
