@@ -27,24 +27,17 @@ The ".gitignore" file is your friend!
 ## Authentication: 
 Switch to ssh-key based auth to avoid annoying "please enter your account/pw" messages 
 
-## updating root-owned directories from user shell per ssh 
+## updating root-owned directories from user shell per ssh -A
+Setup /root/git folder and /root/.config/git_dirs file:
 
- * create folder /root/git `mkdir /root/git`. In that folder:
+ * create folder `mkdir /root/git`. In that folder:
      * `git clone https://github.com/matschi-klickme/syncallgit.git`
-        * `echo "/git_root" >> /root/.config/git_dirs`
+        * Create git_dirs file for root: `echo "/root/git" >> /root/.config/git_dirs`
         * clone additional repos
         * symlink relevant files to desired locations
- * auto pull/push of all git folders in /git/root as from a regular user shell via {{{ ssh -A -t root@localhost /git_root/syncallgit.sh  }}}
-    * ssh stuff needs to be setup
-    * you probably need to set your root's git editor: git config --global core.editor "EDITOR"   (replace with desired editor, eg "vim", "nano", etc )
 
 ### option #1: via ssh -A root@localhost 
- * ssh-based authentication needs to be set up for this
- * create folder /git_root. `mkdir /git_root` In that folder:
-     * `git clone https://github.com/matschi-klickme/syncallgit.git`
-     * clone additional repos
-     * symlink relevant files to desired locations
- * Create git_dirs file for root: `echo "/git_root" >> /root/.config/git_dirs`
- * use `ssh -A root@localhost /git_root/syncallgit.sh` to auto sync repos in /git_root from a regular user shell 
-    * you might need to set your root's git editor: `git config --global core.editor "EDITOR"`   (replace with desired editor, eg "vim", "nano", etc )
-
+Ssh-key based authentication needs to be set up for this
+ * you might need to set your root's git editor: `git config --global core.editor "EDITOR"`   (replace with desired editor, eg "vim", "nano", etc )
+ * use `ssh -A root@localhost /root/git/syncallgit.sh` to auto sync repos in /git_root from a regular user shell 
+    
