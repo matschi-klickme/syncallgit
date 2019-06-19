@@ -37,7 +37,8 @@ Setup /root/git folder and /root/.config/git_dirs file:
         * symlink relevant files to desired locations
 
 ### option #1: via ssh -A root@localhost 
-Ssh-key based authentication needs to be set up for this
+SSH-key based authentication needs to be set up for this
+
  * you might need to set your root's git editor: `git config --global core.editor "EDITOR"`   (replace with desired editor, eg "vim", "nano", etc )
- * use `ssh -A root@localhost /root/git/syncallgit.sh` to auto sync repos in /git_root from a regular user shell 
-    
+ * use `ssh -A root@localhost /root/git/syncallgit.sh` to auto sync repos in /root/git and all additional entries in /root/.conf/git_dirs from a regular user shell 
+  
