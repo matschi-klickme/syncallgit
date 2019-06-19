@@ -19,7 +19,15 @@ one full path per line,
 
 ( Suggestion: put in the loction of the "syncallgit" -git dir first )
 
-# Updating root-owned directories from user shell
+# Avoid annoying stuff:
+
+## untracked files: 
+The ".gitignore" file is your friend!
+
+## Authentication: 
+Switch to ssh-key based auth to avoid annoying "please enter your account/pw" messages 
+
+## Updating root-owned directories from user shell
 Setup /root/git folder and /root/.config/git_dirs file:
 
  * create folder `mkdir /root/git`. In that folder:
@@ -34,10 +42,3 @@ SSH-key based authentication needs to be set up for this
  * you might need to set your root's git editor: `git config --global core.editor "EDITOR"`   (replace with desired editor, eg "vim", "nano", etc )
  * use `ssh -A root@localhost /root/git/syncallgit.sh` to auto sync repos in /root/git and all additional entries in /root/.conf/git_dirs from a regular user shell 
   
-# Avoid annoying stuff:
-
-## untracked files: 
-The ".gitignore" file is your friend!
-
-## Authentication: 
-Switch to ssh-key based auth to avoid annoying "please enter your account/pw" messages 
