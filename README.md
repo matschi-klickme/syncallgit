@@ -6,7 +6,7 @@ The perfect start into your day!
 The script looks for:
 * remote changes in currently checkend out banches 
 * local, uncommited or unpushed changes in currently checked out branches
-* unpushed commits to the local master branch of repos
+* unpushed commits to the local master branch
 
 
 # Config
