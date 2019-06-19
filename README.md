@@ -27,7 +27,7 @@ The ".gitignore" file is your friend!
 ## Authentication: 
 Switch to ssh-key based auth to avoid annoying "please enter your account/pw" messages 
 
-## Updating root-owned directories from user shell per ssh -A
+## Updating root-owned directories from user shell
 Setup /root/git folder and /root/.config/git_dirs file:
 
  * create folder `mkdir /root/git`. In that folder:
