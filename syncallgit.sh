@@ -72,8 +72,7 @@ do
 	(find "$ELEMENT" -maxdepth 1 -type d ) | while read -r FOLDER
 	do
 	if [ -d "$FOLDER"/.git ]; then
-	(
-	   echo "Git folder found in:" "$FOLDER"
+		echo "Git folder found in:" "$FOLDER"
 	   	cd "$FOLDER" || return 
 		git pull 
 		if [ "$(git diff --stat)" != '' ]
@@ -86,8 +85,8 @@ do
 
 			git commit -a --dry-run > .git/COMMIT_EDITMSG; sed -i -e 's/^/#/' .git/COMMIT_EDITMSG; sed -i -e '1i\INSERT YOUR COMMIT MESSAGE HERE\' .git/COMMIT_EDITMSG
 			$SYNCALLGIT_EDITOR_CMD .git/COMMIT_EDITMSG; 
-			EDITORPID=$!
-			wait "$EDITORPID"
+			#EDITORPID=$!
+			#wait "$EDITORPID"
 			sed -i -e '/^[[:blank:]]*#/d;s/#.*//' .git/COMMIT_EDITMSG  
 			git commit -a -F .git/COMMIT_EDITMSG; git push; echo "" 
 		fi
@@ -96,7 +95,6 @@ do
 				echo "Unpushed local commits to master branch found. Starting push."
 				(git push origin master)
 	  	fi
-	)
 	fi
 	done
 done
