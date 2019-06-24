@@ -40,7 +40,7 @@ do
 
 			git commit -a --dry-run > .git/COMMIT_EDITMSG; sed -i -e 's/^/#/' .git/COMMIT_EDITMSG
 			$SYNCALLGIT_EDITOR_CMD .git/COMMIT_EDITMSG  
-			git commit -a -F .git/COMMIT_EDITMSG; git push 
+			git commit -a -F .git/COMMIT_EDITMSG; git push; echo "" 
 		fi
 		if [ "$(git diff origin/master master)" != ''  ]
 		then 
