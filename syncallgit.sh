@@ -38,8 +38,8 @@ do
 			#hint: Waiting for your editor to close the file... Vim: Warning: Input is not from a terminal
 			#Vim: Error reading input, exiting.
 
-			git commit -a --dry-run > .git/COMMIT_EDITMSG; sed -i -e 's/^/#/' .git/COMMIT_EDITMSG
-			$SYNCALLGIT_EDITOR_CMD .git/COMMIT_EDITMSG  
+			git commit -a --dry-run > .git/COMMIT_EDITMSG; sed -i -e 's/^/#/' .git/COMMIT_EDITMSG; sed -i -e '1i\\' .git/COMMIT_EDITMSG
+			$SYNCALLGIT_EDITOR_CMD .git/COMMIT_EDITMSG; sed -i -e '/^[[:blank:]]*#/d;s/#.*//' .git/COMMIT_EDITMSG  
 			git commit -a -F .git/COMMIT_EDITMSG; git push; echo "" 
 		fi
 		if [ "$(git diff origin/master master)" != ''  ]
