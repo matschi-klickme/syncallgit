@@ -58,8 +58,6 @@ else
 fi
 
 
-
-
 LOOK_DIRS=${1:-$CONF_LOOK_DIRS}
 
 echo ""; echo "Looking for git folders in:"
