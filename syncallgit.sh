@@ -76,7 +76,18 @@ do
 	
 		echo "Git folder found in:" "$FOLDER"
 	   	cd "$FOLDER" || return 
-		git pull 
+	   	if [ -f ".pull_submodules" ]
+	   	then
+	   		echo ".pull_recurse_submodules file found. Will do 'git pull --recurse-submodules'"
+	   		git pull --recurse-submodules
+	   	elif [ -f ".submodule_update_recursive" ]
+	   	then 
+	   		echo ".submodule_update_recursive file found. Will do '.submodule_update_recursive'"
+	   		git submodule update --recursive --remote
+	   	else
+	   		git pull
+	   	fi
+	   	 
 		if [ "$(git diff --stat)" != '' ]
 		then
 			echo "Uncommitted local changes found. Starting commit and push "
