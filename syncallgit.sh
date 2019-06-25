@@ -18,35 +18,38 @@ then
 	echo ".config/git_links.d folder found"
 		(find "$GIT_LINKS_DIR" -maxdepth 1 -type d ) | while read -r FOLDER
 		do
-			(
-			(find "$FOLDER" -maxdepth 1 -type f ) | while read -r FILE
-			do
-				while read -r PUTPLACE LINK
+			if [ "$(basename "$FOLDER")" != ".git" ]
+			then
+				(
+				(find "$FOLDER" -maxdepth 1 -type f ) | while read -r FILE
 				do
-					(
-					if [ ! -d "$PUTPLACE" ]
-					then
-						echo ""; echo "Creating new directory:" "$PUTPLACE"
-						mkdir -p "$PUTPLACE"; cd "$PUTPLACE" || return
-						git clone --depth 5 "$LINK" .
-					fi
-					)
+					while read -r PUTPLACE LINK
+					do
+						(
+						if [ ! -d "$PUTPLACE" ]
+						then
+							echo ""; echo "Creating new directory:" "$PUTPLACE"
+							mkdir -p "$PUTPLACE"; cd "$PUTPLACE" || return
+							git clone --depth 5 "$LINK" .
+						fi
+						)
+						
+						PARENTDIR="$(dirname -- "$(readlink -f -- "$PUTPLACE")")"
+						if [ "$(grep -Fxq "$PARENTDIR" "$GIT_DIRS_FILE")" ]
+						then 
+							echo "Parent directory $PARENTDIR is not in $GIT_DIRS_FILE. Entry is added"
+							echo "$PARENTDIR" >> "$GIT_DIRS_FILE"
+						fi
+					done < "$FILE"
 					
-					PARENTDIR="$(dirname -- "$(readlink -f -- "$PUTPLACE")")"
-					if [ "$(grep -Fxq "$PARENTDIR" "$GIT_DIRS_FILE")" ]
-					then 
-						echo "Parent directory $PARENTDIR is not in $GIT_DIRS_FILE. Entry is added"
-						echo "$PARENTDIR" >> "$GIT_DIRS_FILE"
-					fi
-				done < "$FILE"
-				
-			done
-			)
+				done
+				)
+			fi
 		done
 	fi
 
 fi
-
+#
 GIT_EDITOR_FILE="$HOME/.config/syncallgit_editor_cmd"
 
 if [ -f "$GIT_EDITOR_FILE" ]
