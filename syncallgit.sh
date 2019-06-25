@@ -28,7 +28,7 @@ then
 					then
 						echo ""; echo "Creating new directory:" "$PUTPLACE"
 						mkdir -p "$PUTPLACE"; cd "$PUTPLACE" || return
-						git clone "$LINK" .
+						git clone --depth 5 "$LINK" .
 					fi
 					)
 					
