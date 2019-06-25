@@ -51,7 +51,7 @@ GIT_EDITOR_FILE="$HOME/.config/syncallgit_editor_cmd"
 
 if [ -f "$GIT_EDITOR_FILE" ]
 then
-	SYNCALLGIT_EDITOR_CMD="$(cat "$GIT_EDITOR_FILE")" 
+	SYNCALLGIT_EDITOR_CMD=$(cat "$GIT_EDITOR_FILE")
 else
 	echo "no .config/syncallgit_editor_cmd file found. Using xterm -e vim as a default"
 	SYNCALLGIT_EDITOR_CMD="xterm -e vim"
@@ -70,6 +70,7 @@ do
 	(find "$ELEMENT" -maxdepth 1 -type d ) | while read -r FOLDER
 	do
 	if [ -d "$FOLDER"/.git ]; then
+	
 		echo "Git folder found in:" "$FOLDER"
 	   	cd "$FOLDER" || return 
 		git pull 
@@ -81,10 +82,9 @@ do
 			#hint: Waiting for your editor to close the file... Vim: Warning: Input is not from a terminal
 			#Vim: Error reading input, exiting.
 
-			git commit -a --dry-run > .git/COMMIT_EDITMSG; sed -i -e 's/^/#/' .git/COMMIT_EDITMSG; sed -i -e '1i\INSERT YOUR COMMIT MESSAGE HERE\' .git/COMMIT_EDITMSG
-			$SYNCALLGIT_EDITOR_CMD .git/COMMIT_EDITMSG
-			EDITORPID=$!
-			wait "$EDITORPID"
+			git commit -a --dry-run > .git/COMMIT_EDITMSG; sed -i -e 's/^/#/' .git/COMMIT_EDITMSG; sed -i -e '1i\\' .git/COMMIT_EDITMSG
+			$($SYNCALLGIT_EDITOR_CMD .git/COMMIT_EDITMSG )
+			#gedit .git/COMMIT_EDITMSG
 			sed -i -e '/^[[:blank:]]*#/d;s/#.*//' .git/COMMIT_EDITMSG  
 			git commit -a -F .git/COMMIT_EDITMSG; git push; echo "" 
 		fi
@@ -93,6 +93,7 @@ do
 				echo "Unpushed local commits to master branch found. Starting push."
 				(git push origin master)
 	  	fi
+	
 	fi
 	done
 done
