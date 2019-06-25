@@ -1,25 +1,64 @@
 # syncallgit
-Simple script to sync (pull, commit, push) git repos listed in ~/.config/git_dirs - file.
+Simple script to sync ( clone, pull, commit, push) git repos. 
 
-The perfect start into your day!
+The perfect way to start&end your day!
 
-The script looks for:
-* remote changes in currently checkend out banches 
-* local, uncommited or unpushed changes in currently checked out branches
-* unpushed commits to the local master branch
+# Usage
 
+`syncallgit.sh {optional directory}`
+
+The script 
+* creates directories and clones repositories according to git_links.d
+* takes a look at all directories and their subfolders in the git_dirs file
+* executes desired versions of `git pull` 
+* and checks for
+    * remote changes in currently checkend out banches 
+    * local, uncommited or unpushed changes in currently checked out branches
+    * unpushed commits to the local master branch
+
+Use the {optional directory} to check a single directory - otherwise the script will use it's config files. 
 
 # Config
-If "~/.config/git_dirs" file exists, it will be used. Otherwise $PWD 
+The script uses the following configuration files if they exist: 
 
-## git_dirs file: 
-one full path per line,
-* eighter to git-repo
-* or folders containing git-repos
+## $HOME/.config/git_links.d directory:
+For folders that contain files telling where to put which repo if it doesn't yet exist in filesystem
+
+git_links.d/
+        FOLDERNAME/
+            filename.conf
+
+Syntax for files: 
+"full targetpath"  "link for cloning"     
+
+* If necessary the directories and parents are created and added to the git_dirs file automatically.
+* .git folders in this directory are ignored, so you're safe to use a git repo for this directory ( for replication etc )
+
+## $HOME/.config/git_dirs file: 
+List of (parent-) directories containing git folders to be synced.
+
+* one full path per line,
+* eighter to folder containing /.git or
+* parent-folders containing folders 
 
 ( Suggestion: put in the loction of the "syncallgit" -git dir first )
 
-# Updating root-owned directories from user shell
+## $HOME/.config/syncallgit_editor_cmd file:
+The command to edit git comments - as a workaround to issues with gpg signed commits, when git's default `core.editor config` might cause input problems. 
+
+Default: `xterm -e vim`
+Suggested Alternatives: `gedit -s`
+
+## config file options for git directories: 
+Additionally, you can add the following files to your git-repositories to change the behaviour of the "git pull"  
+
+### .pull_submodules
+To use `git pull --recurse-submodules` instead of simple `git pull`
+
+### .submodule_update_recursive
+To use `git submodule update --recursive --remote` instead of simple `git pull`
+
+# Example: Updating root-owned directories from user shell
 Setup /root/git folder and /root/.config/git_dirs file:
 
  * create folder `mkdir /root/git`. In that folder:
