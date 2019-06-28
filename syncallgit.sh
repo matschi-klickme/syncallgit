@@ -78,13 +78,14 @@ do
 	   	cd "$FOLDER" || return 
 	   	if [ -f ".pull_submodules" ]
 	   	then
-	   		echo ".pull_recurse_submodules file found. Will do 'git pull --recurse-submodules'. This will update all submodules to their referenced Heads."
+	   		echo ".submodule_update_recursive file found. Will do 'git pull --recurse-submodules; git submodule update --recursive --remote' to pull the repo and update all submodules. This takes precedence over .submodule_update_recursive files."
 	   		git pull --recurse-submodules
+	   		git submodule update --recursive --remote
+
 	   	elif [ -f ".submodule_update_recursive" ]
 	   	then 
-	   		echo ".submodule_update_recursive file found. Will do 'git submodule update --recursive --remote'"
-	   		git pull
-	   		git submodule update --recursive --remote
+	   		echo ".pull_recurse_submodules file found. Will do 'git pull --recurse-submodules'. This will update all submodules to their referenced Heads."
+	   		git pull --recurse-submodules
 	   	else
 	   		git pull
 	   	fi
