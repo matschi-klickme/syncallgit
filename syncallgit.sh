@@ -104,7 +104,7 @@ do
 			sed -i -e '/^[[:blank:]]*#/d;s/#.*//' .git/COMMIT_EDITMSG  
 			git commit -a -F .git/COMMIT_EDITMSG; git push; echo "" 
 		fi
-		if [ "$(git diff origin)" != ''  ]
+		if [ "$(git diff @ @{upstream} )" != ''  ]
 		then 
 				echo "Unpushed local commits to master branch found. Starting push."
 				(git push origin master)
