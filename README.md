@@ -1,93 +1,82 @@
 # syncallgit
+Simple script to sync ( clone, pull, commit, push) git repos. 
 
+The perfect way to start&end your day!
 
+# Usage
 
-## Getting started
+`syncallgit.sh {optional directory}`
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+The script 
+* creates directories and clones repositories according to git_links.d
+* takes a look at all directories and their subfolders in the git_dirs file
+* executes desired versions of `git pull` 
+* and checks for
+    * remote changes in currently checkend out banches 
+    * local, uncommited or unpushed changes in currently checked out branches
+    * unpushed commits to the local master branch
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Use the {optional directory} to check a single directory - otherwise the script will use it's config files. 
 
-## Add your files
+# Config
+The script uses the following configuration files if they exist: 
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## $HOME/.config/git_links.d directory:
+For folders that contain files telling where to put which repo if it doesn't yet exist in filesystem
 
-```
-cd existing_repo
-git remote add origin https://gitlab.zeug.xyz/public.repos/syncallgit.git
-git branch -M main
-git push -uf origin main
-```
+git_links.d/
+        FOLDERNAME/
+            filename.conf
 
-## Integrate with your tools
+Syntax for files: 
+"full targetpath"  "link for cloning"     
 
-- [ ] [Set up project integrations](https://gitlab.zeug.xyz/public.repos/syncallgit/-/settings/integrations)
+* If necessary the directories and parents are created and added to the git_dirs file automatically.
+* .git folders in this directory are ignored, so you're safe to use a git repo for this directory ( for replication etc )
 
-## Collaborate with your team
+## $HOME/.config/git_dirs file: 
+List of (parent-) directories containing git folders to be synced.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+* one full path per line,
+* eighter to folder containing /.git or
+* parent-folders containing folders 
 
-## Test and Deploy
+( Suggestion: put in the loction of the "syncallgit" -git dir first )
 
-Use the built-in continuous integration in GitLab.
+## $HOME/.config/syncallgit_editor_cmd file:
+The command to edit git comments - as a workaround to issues with gpg signed commits, when git's default `core.editor config` might cause input problems. 
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Default: `xterm -e vim`
+Suggested Alternatives: `gedit -s`
 
-***
+## config file options for git directories: 
+Additionally, you can add the following files to your git-repositories to change the behaviour of the "git pull"  
 
-# Editing this README
+### .pull_submodules
+To use `git pull --recurse-submodules` instead of simple `git pull`
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### .submodule_update_recursive
+To use `git submodule update --recursive --remote` instead of simple `git pull`
 
-## Suggestions for a good README
+# Example: Updating root-owned directories from user shell
+Setup /root/git folder and /root/.config/git_dirs file:
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+ * create folder `mkdir /root/git`. In that folder:
+     * `git clone https://github.com/matschi-klickme/syncallgit.git`
+        * Create git_dirs file for root: `echo "/root/git" >> /root/.config/git_dirs`
+        * clone additional repos
+        * symlink relevant files to desired locations
 
-## Name
-Choose a self-explaining name for your project.
+### option #1: via ssh -A root@localhost 
+SSH-key based authentication needs to be set up for this
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+ * you might need to set your root's git editor: `git config --global core.editor "EDITOR"`   (replace with desired editor, eg "vim", "nano", etc )
+ * use `ssh -A root@localhost /root/git/syncallgit.sh` to auto sync repos in /root/git and all additional entries in /root/.conf/git_dirs from a regular user shell 
+  
+# Avoid annoying stuff:
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## untracked files: 
+The ".gitignore" file is your friend!
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Authentication: 
+Switch to ssh-key based auth to avoid annoying "please enter your account/pw" messages 
